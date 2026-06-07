@@ -130,7 +130,7 @@ def register():
         return jsonify({"error": str(e)}), 500
 
 # ✅ FINAL LOGIN (FIXED)
- @app.route("/login", methods=["POST"])
+@app.route("/login", methods=["POST"])
 def login():
     try:
         data = request.get_json() if request.is_json else request.form
@@ -164,7 +164,7 @@ def login():
         return jsonify({"error": str(e)}), 500
 
 # ✅ PREDICT
- @app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=["POST"])
 def predict():
     try:
         text = request.form.get("text")
