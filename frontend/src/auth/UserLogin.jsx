@@ -13,7 +13,7 @@ function UserLogin() {
     const password = e.target.password.value;
 
     try {
-      const res = await fetch(getApiUrl("/api/login"), {
+      const res = await fetch(getApiUrl("/login"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
