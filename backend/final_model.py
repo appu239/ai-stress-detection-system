@@ -130,7 +130,7 @@ def register():
         return jsonify({"error": str(e)}), 500
 
 # ✅ FINAL LOGIN (FIXED)
-@app.route("/login", methods=["POST"])
+ @app.route("/login", methods=["POST"])
 def login():
     try:
         data = request.get_json() if request.is_json else request.form
@@ -144,7 +144,21 @@ def login():
         if not email or not password:
             return jsonify({"error": "Missing fields"}), 400
 
-        return jsonify({"message": "Login successful"}), 200
+        # 🔍 CHECK USER FROM REGISTERED LIST
+        user = next(
+            (u for u in users if u["email"] == email and u["password"] == password),
+            None
+        )
+
+        if not user:
+            return jsonify({"error": "Invalid credentials"}), 401
+
+        # ✅ IMPORTANT: SEND token + role
+        return jsonify({
+            "token": "user_token_123",
+            "role": "USER",
+            "name": user["name"]
+        }), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
