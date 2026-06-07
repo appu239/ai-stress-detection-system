@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 # =========================
-# TEMP USER STORAGE (for demo)
+# TEMP USER STORAGE
 # =========================
 users = []
 
@@ -70,26 +70,19 @@ def clean_text(text):
     return text
 
 # =========================
-# AUDIO PREDICTION
+# PREDICTIONS
 # =========================
 def predict_audio(file_path):
     features = extract_audio_features(file_path)
     features_scaled = scaler.transform(features)
-    pred = audio_model.predict(features_scaled)[0]
-    return pred
+    return audio_model.predict(features_scaled)[0]
 
-# =========================
-# TEXT PREDICTION
-# =========================
 def predict_text(text):
     text = clean_text(text)
     vec = vectorizer.transform([text])
     pred = text_model.predict(vec)[0]
     return reverse_map[pred]
 
-# =========================
-# FINAL PREDICTION
-# =========================
 def final_prediction(audio_file, text):
     audio_pred = predict_audio(audio_file)
     text_pred = predict_text(text)
@@ -107,28 +100,46 @@ def final_prediction(audio_file, text):
 def home():
     return "Backend is running"
 
-# 🔐 REGISTER
+# ✅ REGISTER (FIXED)
 @app.route("/register", methods=["POST"])
 def register():
-    data = request.json
+    data = request.get_json()
 
     if not data:
         return jsonify({"error": "No data received"}), 400
 
-    users.append(data)
+    name = data.get("name")
+    email = data.get("email")
+    password = data.get("password")
+
+    if not name or not email or not password:
+        return jsonify({"error": "Missing fields"}), 400
+
+    users.append({
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
     return jsonify({"message": "User registered successfully"}), 200
 
-# 🔐 LOGIN
+# ✅ LOGIN (FIXED)
 @app.route("/login", methods=["POST"])
 def login():
-    data = request.json
+    data = request.get_json()
 
     if not data:
         return jsonify({"error": "No data received"}), 400
+
+    email = data.get("email")
+    password = data.get("password")
+
+    if not email or not password:
+        return jsonify({"error": "Missing fields"}), 400
 
     return jsonify({"message": "Login successful"}), 200
 
-# 🎯 PREDICT
+# ✅ PREDICT (UNCHANGED)
 @app.route("/predict", methods=["POST"])
 def predict():
     text = request.form.get("text")
