@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PublicFooter from "../components/PublicFooter";
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import { getApiUrl } from "../utils/api";
