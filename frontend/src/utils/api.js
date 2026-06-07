@@ -32,3 +32,6 @@ export const loginUser = async (data) => {
 
   return response.json();
 };
+export const getApiUrl = (endpoint) => {
+  return `${API_BASE_URL}${endpoint}`;
+};
