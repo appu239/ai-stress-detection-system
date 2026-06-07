@@ -3,10 +3,11 @@ import numpy as np
 import joblib
 import re
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 
 app = Flask(__name__)
-
+CORS(app)
 # =========================
 # LOAD MODELS
 # =========================
