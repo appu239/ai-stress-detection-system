@@ -8,6 +8,12 @@ import os
 
 app = Flask(__name__)
 CORS(app)
+
+# =========================
+# TEMP USER STORAGE (for demo)
+# =========================
+users = []
+
 # =========================
 # LOAD MODELS
 # =========================
@@ -94,27 +100,49 @@ def final_prediction(audio_file, text):
     return label_map[final_label]
 
 # =========================
-# ROUTES (API)
+# ROUTES
 # =========================
 
 @app.route("/")
 def home():
     return "Backend is running"
 
+# 🔐 REGISTER
+@app.route("/register", methods=["POST"])
+def register():
+    data = request.json
+
+    if not data:
+        return jsonify({"error": "No data received"}), 400
+
+    users.append(data)
+    return jsonify({"message": "User registered successfully"}), 200
+
+# 🔐 LOGIN
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.json
+
+    if not data:
+        return jsonify({"error": "No data received"}), 400
+
+    return jsonify({"message": "Login successful"}), 200
+
+# 🎯 PREDICT
 @app.route("/predict", methods=["POST"])
 def predict():
     text = request.form.get("text")
     audio_file = request.files.get("audio")
 
     if not text or not audio_file:
-        return jsonify({"error": "Missing input"})
+        return jsonify({"error": "Missing input"}), 400
 
     file_path = "temp.wav"
     audio_file.save(file_path)
 
     result = final_prediction(file_path, text)
 
-    return jsonify({"prediction": result})
+    return jsonify({"prediction": result}), 200
 
 # =========================
 # RUN SERVER
