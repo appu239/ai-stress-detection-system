@@ -164,7 +164,7 @@ def login():
         return jsonify({"error": str(e)}), 500
 
 # ✅ PREDICT
-@app.route("/predict", methods=["POST"])
+ @app.route("/predict", methods=["POST"])
 def predict():
     try:
         text = request.form.get("text")
