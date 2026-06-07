@@ -100,60 +100,74 @@ def final_prediction(audio_file, text):
 def home():
     return "Backend is running"
 
-# ✅ REGISTER (FIXED)
+# ✅ FINAL REGISTER (FIXED 100%)
 @app.route("/register", methods=["POST"])
 def register():
-    data = request.get_json()
+    try:
+        # handle BOTH json + form
+        data = request.get_json() if request.is_json else request.form
 
-    if not data:
-        return jsonify({"error": "No data received"}), 400
+        if not data:
+            return jsonify({"error": "No data received"}), 400
 
-    name = data.get("name")
-    email = data.get("email")
-    password = data.get("password")
+        # accept ALL possible names
+        name = data.get("name") or data.get("fullName")
+        email = data.get("email") or data.get("workEmail")
+        password = data.get("password")
 
-    if not name or not email or not password:
-        return jsonify({"error": "Missing fields"}), 400
+        if not name or not email or not password:
+            return jsonify({"error": "Missing fields"}), 400
 
-    users.append({
-        "name": name,
-        "email": email,
-        "password": password
-    })
+        users.append({
+            "name": name,
+            "email": email,
+            "password": password
+        })
 
-    return jsonify({"message": "User registered successfully"}), 200
+        return jsonify({"message": "User registered successfully"}), 200
 
-# ✅ LOGIN (FIXED)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# ✅ FINAL LOGIN (FIXED)
 @app.route("/login", methods=["POST"])
 def login():
-    data = request.get_json()
+    try:
+        data = request.get_json() if request.is_json else request.form
 
-    if not data:
-        return jsonify({"error": "No data received"}), 400
+        if not data:
+            return jsonify({"error": "No data received"}), 400
 
-    email = data.get("email")
-    password = data.get("password")
+        email = data.get("email") or data.get("workEmail")
+        password = data.get("password")
 
-    if not email or not password:
-        return jsonify({"error": "Missing fields"}), 400
+        if not email or not password:
+            return jsonify({"error": "Missing fields"}), 400
 
-    return jsonify({"message": "Login successful"}), 200
+        return jsonify({"message": "Login successful"}), 200
 
-# ✅ PREDICT (UNCHANGED)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# ✅ PREDICT
 @app.route("/predict", methods=["POST"])
 def predict():
-    text = request.form.get("text")
-    audio_file = request.files.get("audio")
+    try:
+        text = request.form.get("text")
+        audio_file = request.files.get("audio")
 
-    if not text or not audio_file:
-        return jsonify({"error": "Missing input"}), 400
+        if not text or not audio_file:
+            return jsonify({"error": "Missing input"}), 400
 
-    file_path = "temp.wav"
-    audio_file.save(file_path)
+        file_path = "temp.wav"
+        audio_file.save(file_path)
 
-    result = final_prediction(file_path, text)
+        result = final_prediction(file_path, text)
 
-    return jsonify({"prediction": result}), 200
+        return jsonify({"prediction": result}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # =========================
 # RUN SERVER
