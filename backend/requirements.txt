@@ -1,0 +1,16 @@
+flask
+flask-cors
+gunicorn
+pymongo
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+requests
+PyJWT
+numpy
+librosa
+joblib
+bcrypt
+scikit-learn
+soundfile
+openai-whisper

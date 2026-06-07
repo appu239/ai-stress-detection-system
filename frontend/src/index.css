@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: #2563eb;
+    --primary-foreground: #ffffff;
+    --background: #0f172a;
+    --foreground: #f8fafc;
+  }
+  
+  body {
+    @apply bg-slate-950 text-slate-100 antialiased;
+  }
+}
+
+.result-bg-primary {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background: linear-gradient(135deg, #ecfeff 0%, #eef2ff 50%, #f5f3ff 100%);
+}
+.sidebar-link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #475569;
+}
+
+.sidebar-link:hover {
+  background: #f1f5f9;
+}
+
+.sidebar-link-active {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-weight: 500;
+  border-left: 4px solid #2563eb;
+}
