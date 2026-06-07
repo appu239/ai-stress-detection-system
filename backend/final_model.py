@@ -105,7 +105,7 @@ def home():
 def register():
     try:
         # handle BOTH json + form
-        data = request.get_json() if request.is_json else request.form
+        data = request.get_json(force=True) if request.is_json else request.form
 
         if not data:
             return jsonify({"error": "No data received"}), 400
