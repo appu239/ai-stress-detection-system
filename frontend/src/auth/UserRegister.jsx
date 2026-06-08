@@ -22,6 +22,7 @@ const Register = () => {
     return "";
   };
 
+  // ✅ ONLY ONE FUNCTION (FIXED)
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -32,155 +33,113 @@ const Register = () => {
     }
     setPasswordError("");
 
-    const handleRegister = async (e) => {
-  e.preventDefault();
+    try {
+      const res = await fetch(getApiUrl("/register"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-  const name = e.target.name.value;
-  const email = e.target.email.value;
-  const password = e.target.password.value;
+      const data = await res.json();
+      console.log("REGISTER RESPONSE:", data);
 
-  try {
-    const res = await fetch(getApiUrl("/register"), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password }),
-    });
+      if (!res.ok) {
+        alert(data.error || "Registration failed");
+        return;
+      }
 
-    const data = await res.json();
-    console.log("REGISTER RESPONSE:", data);
+      alert("Registration successful!");
+      navigate("/login");
 
-    if (!res.ok) {
-      alert(data.error || "Registration failed");
-      return;
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
     }
-
-    alert("Registration successful!");
-  } catch (err) {
-    console.error(err);
-    alert("Server error");
-  }
-};
+  };
 
   return (
-    <div className="bg-background-main min-h-screen flex flex-col font-display text-text-main">
+    <div className="bg-background-light min-h-screen flex flex-col font-display">
 
       {/* HEADER */}
-      <header className="flex items-center justify-between border-b border-gray-100 px-6 md:px-12 py-4 bg-white">
+      <header className="flex items-center justify-between border-b px-6 py-4 bg-white">
         <div className="flex items-center gap-2.5">
-          <div className="size-7">
-            <img src="/logo.png" alt="StressAI Logo" className="w-full h-full object-contain" />
-          </div>
-          <h2 className="text-gray-900 text-xl font-bold tracking-tight">
-            StressAI
-          </h2>
+          <img src="/logo.png" alt="Logo" className="w-7 h-7" />
+          <h2 className="text-xl font-bold">StressAI</h2>
         </div>
       </header>
 
       {/* MAIN */}
       <main className="flex-1 flex items-center justify-center py-16 px-6">
-        <div className="max-w-[440px] w-full bg-white rounded-2xl shadow-premium border border-gray-100 overflow-hidden">
+        <div className="max-w-[440px] w-full bg-white rounded-2xl shadow-xl border p-8">
 
-          <div className="pt-10 pb-6 px-10 text-center">
-            <h1 className="text-gray-900 text-3xl font-bold tracking-tight">
-              Create account
-            </h1>
-            <p className="text-gray-500 text-base mt-2">
-              Start your enterprise wellness journey
-            </p>
+          <h1 className="text-2xl font-bold text-center mb-4">
+            Create Account
+          </h1>
+
+          {/* GOOGLE LOGIN */}
+          <div className="flex justify-center mb-4">
+            <GoogleLogin
+              onSuccess={() => {}}
+              onError={() => {}}
+            />
           </div>
 
-          <div className="px-10 pb-10 space-y-6">
+          {/* FORM */}
+          <form onSubmit={handleRegister} className="space-y-4">
 
-            {/* Google Signup */}
-            <div className="flex justify-center">
-              <GoogleLogin
-                onSuccess={async (credentialResponse) => {
-                  try {
-                    const response = await fetch(getApiUrl("/google-login"), { // ✅ FIXED (or remove)
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        token: credentialResponse.credential,
-                      }),
-                    });
+            <input
+              name="name"
+              type="text"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
+              className="w-full h-12 border px-4 rounded-lg"
+            />
 
-                    const data = await response.json();
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              className="w-full h-12 border px-4 rounded-lg"
+            />
 
-                    if (response.ok) {
-                      localStorage.setItem("auth_token", data.token);
-                      localStorage.setItem("auth_role", data.role);
-                      localStorage.setItem("user_name", data.name);
-                      navigate("/user/analyze");
-                    } else {
-                      alert("Google login failed");
-                    }
-                  } catch (error) {
-                    console.error("Error:", error);
-                  }
-                }}
-                onError={() => {
-                  console.log("Google Login Failed");
-                }}
-              />
-            </div>
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+              className="w-full h-12 border px-4 rounded-lg"
+            />
 
-            {/* FORM */}
-            <form className="space-y-4" onSubmit={handleRegister}>
+            {passwordError && (
+              <p className="text-red-500 text-sm">{passwordError}</p>
+            )}
 
-              <input
-                type="text"
-                placeholder="Full Name"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-                className="form-input w-full h-12 border px-4"
-              />
+            <button
+              type="submit"
+              className="w-full h-12 bg-primary text-white rounded-lg"
+            >
+              Create Account
+            </button>
 
-              <input
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                className="form-input w-full h-12 border px-4"
-              />
-
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-                className="form-input w-full h-12 border px-4"
-              />
-
-              {passwordError && (
-                <p className="text-red-500 text-sm">{passwordError}</p>
-              )}
-
-              <button
-                type="submit"
-                className="w-full h-12 bg-primary text-white rounded-lg"
-              >
-                Create Account
-              </button>
-
-            </form>
-
-          </div>
+          </form>
         </div>
       </main>
 
       {/* FOOTER */}
-      <footer className="py-12 text-center text-sm text-gray-400 bg-white border-t border-gray-100">
-        <p>© 2024 StressAI Enterprise Wellness. All rights reserved.</p>
+      <footer className="py-6 text-center text-sm text-gray-400">
+        © 2024 StressAI
       </footer>
 
     </div>
