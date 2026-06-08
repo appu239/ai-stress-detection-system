@@ -32,28 +32,36 @@ const Register = () => {
     }
     setPasswordError("");
 
-    try {
-      const response = await fetch(getApiUrl("/register"), {   // ✅ FIXED
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-      });
+    const handleRegister = async (e) => {
+  e.preventDefault();
 
-      const data = await response.json();
+  const name = e.target.name.value;
+  const email = e.target.email.value;
+  const password = e.target.password.value;
 
-      if (response.ok) {
-        alert("Registration successful!");
-        navigate("/login");
-      } else {
-        alert(data.error || "Registration failed");
-      }
-    } catch (error) {
-      alert("Server error");
-      console.error(error);
+  try {
+    const res = await fetch(getApiUrl("/register"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    const data = await res.json();
+    console.log("REGISTER RESPONSE:", data);
+
+    if (!res.ok) {
+      alert(data.error || "Registration failed");
+      return;
     }
-  };
+
+    alert("Registration successful!");
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+};
 
   return (
     <div className="bg-background-main min-h-screen flex flex-col font-display text-text-main">

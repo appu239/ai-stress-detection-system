@@ -1,11 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class", // ✅ FIXED (correct place)
+
   content: ["./src/**/*.{js,jsx}"],
+
   theme: {
     extend: {
       colors: {
         primary: "#137fec",
-        darkMode: "class",
         "background-light": "#f6f7f8",
         "background-dark": "#060707",
       },
@@ -14,5 +16,6 @@ module.exports = {
       },
     },
   },
+
   plugins: [],
 };
