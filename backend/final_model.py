@@ -12,7 +12,21 @@ CORS(app)
 # =========================
 # TEMP USER STORAGE
 # =========================
-users = []
+import json
+
+USER_FILE = "users.json"
+
+def load_users():
+    if os.path.exists(USER_FILE):
+        with open(USER_FILE, "r") as f:
+            return json.load(f)
+    return []
+
+def save_users(users):
+    with open(USER_FILE, "w") as f:
+        json.dump(users, f)
+
+users = load_users()
 
 # =========================
 # LOAD MODELS (with fallback)
@@ -163,6 +177,8 @@ def register():
             "email": email,
             "password": password
         })
+        
+        save_users(users)
 
         return jsonify({"message": "User registered successfully"}), 200
 
