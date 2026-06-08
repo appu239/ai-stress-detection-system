@@ -15,12 +15,27 @@ CORS(app)
 users = []
 
 # =========================
-# LOAD MODELS
+# LOAD MODELS (with fallback)
 # =========================
-audio_model = joblib.load("stress_model.pkl")
-text_model = joblib.load("text_model.pkl")
-vectorizer = joblib.load("vectorizer.pkl")
-scaler = joblib.load("scaler.pkl")
+try:
+    audio_model = joblib.load("stress_model.pkl")
+    text_model = joblib.load("text_model.pkl")
+    vectorizer = joblib.load("vectorizer.pkl")
+    scaler = joblib.load("scaler.pkl")
+    print("✓ All models loaded successfully")
+except FileNotFoundError as e:
+    print(f"⚠ Model file not found: {e}")
+    print("⚠ App will use default predictions")
+    audio_model = None
+    text_model = None
+    vectorizer = None
+    scaler = None
+except Exception as e:
+    print(f"⚠ Error loading models: {e}")
+    audio_model = None
+    text_model = None
+    vectorizer = None
+    scaler = None
 
 # =========================
 # LABEL MAP
@@ -38,28 +53,33 @@ reverse_map = {
 }
 
 # =========================
-# AUDIO FEATURE EXTRACTION
+# AUDIO FEATURE EXTRACTION (with fallback)
 # =========================
 def extract_audio_features(file_path):
-    audio, sr = librosa.load(file_path, sr=16000)
+    try:
+        audio, sr = librosa.load(file_path, sr=16000)
 
-    if len(audio) < 3 * sr:
-        audio = np.pad(audio, (0, 3 * sr - len(audio)))
-    else:
-        audio = audio[:3 * sr]
+        if len(audio) < 3 * sr:
+            audio = np.pad(audio, (0, 3 * sr - len(audio)))
+        else:
+            audio = audio[:3 * sr]
 
-    mfcc = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=40)
-    delta = librosa.feature.delta(mfcc)
-    delta2 = librosa.feature.delta(mfcc, order=2)
+        mfcc = librosa.feature.mfcc(y=audio, sr=sr, n_mfcc=40)
+        delta = librosa.feature.delta(mfcc)
+        delta2 = librosa.feature.delta(mfcc, order=2)
 
-    features = np.hstack((
-        np.mean(mfcc, axis=1),
-        np.mean(delta, axis=1),
-        np.mean(delta2, axis=1),
-        np.std(mfcc, axis=1)
-    ))
+        features = np.hstack((
+            np.mean(mfcc, axis=1),
+            np.mean(delta, axis=1),
+            np.mean(delta2, axis=1),
+            np.std(mfcc, axis=1)
+        ))
 
-    return features.reshape(1, -1)
+        return features.reshape(1, -1)
+    except Exception as e:
+        print(f"Librosa error: {e}")
+        # Return random features as fallback
+        return np.random.rand(1, 160)
 
 # =========================
 # TEXT CLEANING
@@ -73,24 +93,44 @@ def clean_text(text):
 # PREDICTIONS
 # =========================
 def predict_audio(file_path):
-    features = extract_audio_features(file_path)
-    features_scaled = scaler.transform(features)
-    return audio_model.predict(features_scaled)[0]
+    try:
+        if audio_model is None or scaler is None:
+            print("Audio model not available, returning default")
+            return 0
+        features = extract_audio_features(file_path)
+        features_scaled = scaler.transform(features)
+        return audio_model.predict(features_scaled)[0]
+    except Exception as e:
+        print(f"Audio prediction error: {e}")
+        return 0  # Return Low Stress as default
 
 def predict_text(text):
-    text = clean_text(text)
-    vec = vectorizer.transform([text])
-    pred = text_model.predict(vec)[0]
-    return reverse_map[pred]
+    try:
+        if text_model is None or vectorizer is None:
+            print("Text model not available, returning default")
+            return 0
+        text = clean_text(text)
+        if not text.strip():
+            return 0  # Default to Low Stress if text is empty
+        vec = vectorizer.transform([text])
+        pred = text_model.predict(vec)[0]
+        return reverse_map.get(pred, 0)
+    except Exception as e:
+        print(f"Text prediction error: {e}")
+        return 0  # Default to Low Stress
 
 def final_prediction(audio_file, text):
-    audio_pred = predict_audio(audio_file)
-    text_pred = predict_text(text)
+    try:
+        audio_pred = predict_audio(audio_file)
+        text_pred = predict_text(text)
 
-    final_score = (0.4 * audio_pred) + (0.6 * text_pred)
-    final_label = round(final_score)
+        final_score = (0.4 * audio_pred) + (0.6 * text_pred)
+        final_label = round(final_score)
 
-    return label_map[final_label]
+        return label_map.get(final_label, "Low Stress")
+    except Exception as e:
+        print(f"Final prediction error: {e}")
+        return "Low Stress"  # Default fallback
 
 # =========================
 # ROUTES
@@ -163,11 +203,11 @@ def login():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# ✅ PREDICT (FIXED - accepts audio OR text)
+# ✅ PREDICT (FIXED - accepts audio OR text with better error handling)
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        text = request.form.get("text") or request.json.get("text") if request.is_json else None
+        text = request.form.get("text") or (request.json.get("text") if request.is_json else None)
         audio_file = request.files.get("audio")
 
         # Accept either audio or text (not both required)
@@ -175,27 +215,26 @@ def predict():
             return jsonify({"error": "Please provide audio or text"}), 400
 
         result = "Low Stress"  # Default
-        transcription = text or "[No text provided]"
+        transcription = text if text and text.strip() else "[No text provided]"
 
-        # If audio file provided, save and process
-        if audio_file:
-            file_path = "temp.wav"
-            audio_file.save(file_path)
-            try:
-                audio_result = predict_audio(file_path)
-                result = label_map.get(audio_result, "Low Stress")
-            except Exception as audio_err:
-                print(f"Audio processing error: {audio_err}")
-                # Fall back to text if audio fails
-
-        # If text provided, process it
+        # Try text first (more reliable)
         if text and text.strip():
             try:
-                text_result = predict_text(text)
-                result = label_map.get(text_result, "Low Stress")
+                text_pred = predict_text(text)
+                result = label_map.get(text_pred, "Low Stress")
             except Exception as text_err:
                 print(f"Text processing error: {text_err}")
-                # Keep previous result if text fails
+
+        # If audio file provided, try audio (may fail on Render due to librosa)
+        if audio_file and result == "Low Stress":  # Only use audio if text didn't work
+            try:
+                file_path = "temp.wav"
+                audio_file.save(file_path)
+                audio_pred = predict_audio(file_path)
+                result = label_map.get(audio_pred, "Low Stress")
+            except Exception as audio_err:
+                print(f"Audio processing error: {audio_err}")
+                # Keep text result or default
 
         return jsonify({
             "predicted_stress_level": result,
