@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { getUserInfo, getAuthToken } from "../utils/auth";
+import { getApiUrl } from "../utils/api";
 
 export default function Analyze() {
   const navigate = useNavigate();
@@ -114,53 +115,42 @@ export default function Analyze() {
     try {
       setLoading(true);
       setTranscription("AI is listening and evaluating...");
-      let res;
 
+      // Always use FormData for consistency
+      const formData = new FormData();
       if (blob) {
-        const formData = new FormData();
-        // EXPLICIT FILENAME ensures backend identifies binary data correctly
         formData.append("audio", blob, "recording.wav");
-        formData.append("language", selectedLanguage);
-
-        res = await fetch("http://localhost:5000/predict", {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${getAuthToken()}`
-          },
-          body: formData,
-        });
-      } else if (text && text.trim()) {
-        res = await fetch("http://localhost:5000/predict-text", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${getAuthToken()}`
-          },
-          body: JSON.stringify({ text: text }),
-        });
-      } else {
-        alert("Please upload or type text first");
-        return;
       }
+      formData.append("text", text || "No text");
+      formData.append("language", selectedLanguage);
 
-      if (!res.ok) throw new Error("Backend error");
+      const res = await fetch(getApiUrl("/predict"), {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${getAuthToken()}`
+        },
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Backend error");
+      }
 
       const data = await res.json();
       console.log("DEBUG: Backend response:", data);
 
       const config =
         stressConfig[data.predicted_stress_level] ||
-        stressConfig["Low Stress"]; // Fallback to Low but correctly map
+        stressConfig["Low Stress"];
       setStressLevel(data.predicted_stress_level || "Low Stress");
       setStressPercent(config.percent);
       setConfidence(data.confidence || 0);
       setGuidance(config.guidance);
 
-      // Ensure transcription is visible and formatted
-      const finalTranscript = data.speech_text || data.text || text || "[No speech text provided]";
+      const finalTranscript = data.speech_text || text || "[No speech text provided]";
       setTranscription(finalTranscript);
 
-      // Log results for easy debugging
       if (data.debug_probs) {
         console.table({
           "Stress Level": data.predicted_stress_level,
@@ -170,7 +160,7 @@ export default function Analyze() {
       }
     } catch (err) {
       console.error("ANALYSIS ERROR:", err);
-      alert("Analysis failed. Check console or backend logs.");
+      alert("Analysis failed: " + err.message);
       setTranscription("[Analysis Error]");
     } finally {
       setLoading(false);

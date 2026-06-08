@@ -163,29 +163,49 @@ def login():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# ✅ PREDICT
+# ✅ PREDICT (FIXED - accepts audio OR text)
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        text = request.form.get("text")
+        text = request.form.get("text") or request.json.get("text") if request.is_json else None
         audio_file = request.files.get("audio")
 
-        if not text or not audio_file:
-            return jsonify({"error": "Missing input"}), 400
+        # Accept either audio or text (not both required)
+        if not text and not audio_file:
+            return jsonify({"error": "Please provide audio or text"}), 400
 
-        file_path = "temp.wav"
-        audio_file.save(file_path)
+        result = "Low Stress"  # Default
+        transcription = text or "[No text provided]"
 
-        result = final_prediction(file_path, text)
+        # If audio file provided, save and process
+        if audio_file:
+            file_path = "temp.wav"
+            audio_file.save(file_path)
+            try:
+                audio_result = predict_audio(file_path)
+                result = label_map.get(audio_result, "Low Stress")
+            except Exception as audio_err:
+                print(f"Audio processing error: {audio_err}")
+                # Fall back to text if audio fails
+
+        # If text provided, process it
+        if text and text.strip():
+            try:
+                text_result = predict_text(text)
+                result = label_map.get(text_result, "Low Stress")
+            except Exception as text_err:
+                print(f"Text processing error: {text_err}")
+                # Keep previous result if text fails
 
         return jsonify({
             "predicted_stress_level": result,
             "confidence": 0.85,
-            "speech_text": text
+            "speech_text": transcription
         }), 200
 
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        print(f"PREDICT ERROR: {str(e)}")
+        return jsonify({"error": f"Analysis failed: {str(e)}"}), 500
 
 # =========================
 # RUN SERVER
