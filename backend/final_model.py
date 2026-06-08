@@ -83,25 +83,11 @@ def predict_text(text):
     pred = text_model.predict(vec)[0]
     return reverse_map[pred]
 
-def final_prediction(audio_file=None, text=None):
-    audio_pred = 0
-    text_pred = 0
+def final_prediction(audio_file, text):
+    audio_pred = predict_audio(audio_file)
+    text_pred = predict_text(text)
 
-    # ✅ Handle optional inputs
-    if audio_file:
-        audio_pred = predict_audio(audio_file)
-
-    if text:
-        text_pred = predict_text(text)
-
-    # If both present → combine
-    if audio_file and text:
-        final_score = (0.4 * audio_pred) + (0.6 * text_pred)
-    elif text:
-        final_score = text_pred
-    else:
-        final_score = audio_pred
-
+    final_score = (0.4 * audio_pred) + (0.6 * text_pred)
     final_label = round(final_score)
 
     return label_map[final_label]
@@ -114,17 +100,17 @@ def final_prediction(audio_file=None, text=None):
 def home():
     return "Backend is running"
 
-# =========================
-# REGISTER
-# =========================
+# ✅ FINAL REGISTER (FIXED 100%)
 @app.route("/register", methods=["POST"])
 def register():
     try:
+        # handle BOTH json + form
         data = request.get_json(force=True) if request.is_json else request.form
 
         if not data:
             return jsonify({"error": "No data received"}), 400
 
+        # accept ALL possible names
         name = data.get("name") or data.get("fullName")
         email = data.get("email") or data.get("workEmail")
         password = data.get("password")
@@ -143,9 +129,7 @@ def register():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# =========================
-# LOGIN
-# =========================
+# ✅ FINAL LOGIN (FIXED)
 @app.route("/login", methods=["POST"])
 def login():
     try:
@@ -160,6 +144,7 @@ def login():
         if not email or not password:
             return jsonify({"error": "Missing fields"}), 400
 
+        # 🔍 CHECK USER FROM REGISTERED LIST
         user = next(
             (u for u in users if u["email"] == email and u["password"] == password),
             None
@@ -168,6 +153,7 @@ def login():
         if not user:
             return jsonify({"error": "Invalid credentials"}), 401
 
+        # ✅ IMPORTANT: SEND token + role
         return jsonify({
             "token": "user_token_123",
             "role": "USER",
@@ -177,32 +163,25 @@ def login():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# =========================
-# PREDICT (FIXED)
-# =========================
+# ✅ PREDICT
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
         text = request.form.get("text")
         audio_file = request.files.get("audio")
 
-        file_path = None
+        if not text or not audio_file:
+            return jsonify({"error": "Missing input"}), 400
 
-        # Save audio if exists
-        if audio_file:
-            file_path = "temp.wav"
-            audio_file.save(file_path)
-
-        # ❗ Only error if BOTH missing
-        if not text and not audio_file:
-            return jsonify({"error": "Provide text or audio"}), 400
+        file_path = "temp.wav"
+        audio_file.save(file_path)
 
         result = final_prediction(file_path, text)
 
         return jsonify({
             "predicted_stress_level": result,
             "confidence": 0.85,
-            "speech_text": text if text else ""
+            "speech_text": text
         }), 200
 
     except Exception as e:
