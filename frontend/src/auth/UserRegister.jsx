@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
-import { getApiUrl } from "../utils/api";
+import { getApiUrl, wakeUpBackend } from "../utils/api";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -13,6 +13,18 @@ const Register = () => {
     password: ""
   });
   const [passwordError, setPasswordError] = useState("");
+  const [registerLoading, setRegisterLoading] = useState(false);
+  const [waking, setWaking] = useState(true);
+
+  // Wake up Render backend on page load
+  useEffect(() => {
+    const wake = async () => {
+      setWaking(true);
+      await wakeUpBackend();
+      setWaking(false);
+    };
+    wake();
+  }, []);
 
   const validatePassword = (pass) => {
     if (pass.length < 8) return "Password must be at least 8 characters long.";
@@ -32,21 +44,28 @@ const Register = () => {
       return;
     }
     setPasswordError("");
+    setRegisterLoading(true);
 
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+
       const res = await fetch(getApiUrl("/register"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
       const data = await res.json();
       console.log("REGISTER RESPONSE:", data);
 
       if (!res.ok) {
         alert(data.error || "Registration failed");
+        setRegisterLoading(false);
         return;
       }
 
@@ -55,7 +74,12 @@ const Register = () => {
 
     } catch (err) {
       console.error(err);
-      alert("Server error");
+      if (err.name === "AbortError") {
+        alert("Server is taking too long to respond. It may be waking up — please try again in a few seconds.");
+      } else {
+        alert("Cannot reach server. Please check your internet connection and try again.");
+      }
+      setRegisterLoading(false);
     }
   };
 
@@ -70,7 +94,22 @@ const Register = () => {
         </div>
       </header>
 
-      {/* MAIN */}
+      {/* SERVER WAKING BANNER */}
+      {waking && (
+        <div className="bg-amber-50 border-b border-amber-200 px-6 py-3 text-center">
+          <div className="flex items-center justify-center gap-2">
+            <svg className="animate-spin h-4 w-4 text-amber-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span className="text-sm font-medium text-amber-700">
+              Connecting to server... This may take 20-30 seconds on first visit.
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* MAIN */
       <main className="flex-1 flex items-center justify-center py-16 px-6">
         <div className="max-w-[440px] w-full bg-white rounded-2xl shadow-xl border p-8">
 
@@ -128,9 +167,22 @@ const Register = () => {
 
             <button
               type="submit"
-              className="w-full h-12 bg-primary text-white rounded-lg"
+              disabled={registerLoading}
+              className={`w-full h-12 rounded-lg font-bold transition-all ${
+                registerLoading
+                  ? "bg-primary/60 text-white/80 cursor-not-allowed"
+                  : "bg-primary text-white hover:opacity-90"
+              }`}
             >
-              Create Account
+              {registerLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Creating account...
+                </span>
+              ) : "Create Account"}
             </button>
 
           </form>

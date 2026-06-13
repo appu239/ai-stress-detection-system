@@ -7,7 +7,7 @@ from flask_cors import CORS
 import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # =========================
 # TEMP USER STORAGE
@@ -154,6 +154,10 @@ def final_prediction(audio_file, text):
 def home():
     return "Backend is running"
 
+@app.route("/health")
+def health():
+    return jsonify({"status": "ok", "models_loaded": audio_model is not None}), 200
+
 # ✅ FINAL REGISTER (FIXED 100%)
 @app.route("/register", methods=["POST"])
 def register():
@@ -226,31 +230,52 @@ def predict():
         text = request.form.get("text") or (request.json.get("text") if request.is_json else None)
         audio_file = request.files.get("audio")
 
+        # Clean up text - treat "No text" placeholder as empty
+        if text and text.strip().lower() in ["no text", ""]:
+            text = None
+
         # Accept either audio or text (not both required)
         if not text and not audio_file:
             return jsonify({"error": "Please provide audio or text"}), 400
 
-        result = "Low Stress"  # Default
+        text_result = None
+        audio_result = None
         transcription = text if text and text.strip() else "[No text provided]"
 
-        # Try text first (more reliable)
+        # Try text prediction
         if text and text.strip():
             try:
                 text_pred = predict_text(text)
-                result = label_map.get(text_pred, "Low Stress")
+                text_result = text_pred
+                print(f"Text prediction: '{text}' -> {text_pred} -> {label_map.get(text_pred, 'Unknown')}")
             except Exception as text_err:
                 print(f"Text processing error: {text_err}")
 
-        # If audio file provided, try audio (may fail on Render due to librosa)
-        if audio_file and result == "Low Stress":  # Only use audio if text didn't work
+        # Try audio prediction independently
+        if audio_file:
             try:
                 file_path = "temp.wav"
                 audio_file.save(file_path)
                 audio_pred = predict_audio(file_path)
-                result = label_map.get(audio_pred, "Low Stress")
+                audio_result = audio_pred
+                print(f"Audio prediction: {audio_pred} -> {label_map.get(audio_pred, 'Unknown')}")
             except Exception as audio_err:
                 print(f"Audio processing error: {audio_err}")
-                # Keep text result or default
+
+        # Combine results
+        if text_result is not None and audio_result is not None:
+            # Both available: weighted average (text 60%, audio 40%)
+            final_score = (0.4 * audio_result) + (0.6 * text_result)
+            final_pred = round(final_score)
+            result = label_map.get(final_pred, "Low Stress")
+        elif text_result is not None:
+            # Text only
+            result = label_map.get(text_result, "Low Stress")
+        elif audio_result is not None:
+            # Audio only
+            result = label_map.get(audio_result, "Low Stress")
+        else:
+            result = "Low Stress"
 
         return jsonify({
             "predicted_stress_level": result,

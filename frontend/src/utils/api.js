@@ -35,3 +35,17 @@ export const loginUser = async (data) => {
 export const getApiUrl = (endpoint) => {
   return `${API_BASE_URL}${endpoint}`;
 };
+
+// Wake up Render backend (free tier goes to sleep after inactivity)
+export const wakeUpBackend = async () => {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout for cold start
+    const res = await fetch(`${API_BASE_URL}/health`, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    return res.ok;
+  } catch (err) {
+    console.warn("Backend wake-up ping failed:", err.message);
+    return false;
+  }
+};

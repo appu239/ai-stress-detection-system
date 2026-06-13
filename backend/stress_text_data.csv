@@ -1,0 +1,536 @@
+text,label
+i feel very stressed and overwhelmed,High Stress
+too much pressure at work,High Stress
+panic and anxiety attacks,High Stress
+i am exhausted and burned out,High Stress
+I am extremely stressed right now,High Stress
+I feel overwhelmed and anxious,High Stress
+I cannot handle this pressure anymore,High Stress
+I feel mentally exhausted,High Stress
+I am very frustrated and angry,High Stress
+I feel intense anxiety,High Stress
+I am completely overwhelmed,High Stress
+I cannot focus due to stress,High Stress
+I feel panic and fear,High Stress
+I am under heavy pressure,High Stress
+I feel like breaking down,High Stress
+I am very tense and nervous,High Stress
+I feel out of control,High Stress
+I am unable to manage stress,High Stress
+I feel extreme pressure at work,High Stress
+I am mentally drained,High Stress
+I feel helpless and stressed,High Stress
+I cannot sleep due to stress,High Stress
+I feel emotionally exhausted,High Stress
+I am feeling severe anxiety,High Stress
+I feel intense frustration,High Stress
+I am highly stressed about exams,High Stress
+I feel overwhelmed by responsibilities,High Stress
+I am completely exhausted,High Stress
+I feel severe mental pressure,High Stress
+I am extremely anxious,High Stress
+I feel emotionally disturbed,High Stress
+I am struggling badly,High Stress
+I feel burnt out,High Stress
+I am very upset and stressed,High Stress
+I feel panic attacks coming,High Stress
+I am under extreme stress,High Stress
+I feel overloaded and tired,High Stress
+I am mentally exhausted and stressed,High Stress
+I feel severe tension,High Stress
+I am very frustrated with everything,High Stress
+I feel completely drained,High Stress
+I am unable to cope with pressure,High Stress
+I feel intense mental strain,High Stress
+I am emotionally overwhelmed,High Stress
+I feel very disturbed mentally,High Stress
+I am exhausted and stressed,High Stress
+I feel extremely pressured,High Stress
+I am overwhelmed by workload,High Stress
+I feel severe anxiety about exams,High Stress
+I am mentally collapsing,High Stress
+I feel intense stress daily,High Stress
+I am unable to relax at all,High Stress
+I feel extremely tense,High Stress
+I am highly overwhelmed,High Stress
+I feel completely overwhelmed today,High Stress
+I am extremely anxious about everything,High Stress
+I feel intense pressure from work,High Stress
+I am mentally exhausted and frustrated,High Stress
+I feel like I cannot manage anymore,High Stress
+I am under severe academic pressure,High Stress
+I feel constant anxiety,High Stress
+I am unable to focus due to stress,High Stress
+I feel highly frustrated and tense,High Stress
+I am emotionally drained,High Stress
+I feel extreme tension all day,High Stress
+I am very worried and stressed,High Stress
+I feel panic during exams,High Stress
+I am overwhelmed with responsibilities,High Stress
+I feel like giving up,High Stress
+I am extremely stressed about deadlines,High Stress
+I feel severe anxiety at work,High Stress
+I am mentally disturbed today,High Stress
+I feel heavy pressure constantly,High Stress
+I am unable to sleep due to stress,High Stress
+I feel emotionally unstable,High Stress
+I am highly frustrated with workload,High Stress
+I feel intense fear about results,High Stress
+I am extremely overwhelmed by tasks,High Stress
+I feel severe mental strain,High Stress
+I am completely exhausted mentally,High Stress
+I feel intense frustration daily,High Stress
+I am suffering from extreme pressure,High Stress
+I feel like breaking under stress,High Stress
+I am very tense and anxious,High Stress
+I feel highly disturbed mentally,High Stress
+I am emotionally overwhelmed constantly,High Stress
+I feel deep anxiety about exams,High Stress
+I am under unbearable pressure,High Stress
+I feel extremely worried about future,High Stress
+I am highly stressed with workload,High Stress
+I feel constant panic,High Stress
+I am extremely anxious about performance,High Stress
+I feel emotionally exhausted daily,High Stress
+I am unable to manage my stress,High Stress
+I feel severe emotional pressure,High Stress
+I am mentally collapsing under pressure,High Stress
+I feel extremely tense all the time,High Stress
+I am very disturbed mentally,High Stress
+I feel overwhelming anxiety,High Stress
+I am stressed beyond control,High Stress
+I feel extremely drained,High Stress
+I am mentally overloaded,High Stress
+I feel highly overwhelmed and anxious,High Stress
+I am facing extreme stress daily,High Stress
+I feel extremely overwhelmed and anxious because I cannot manage my workload and deadlines anymore,High Stress
+I am under intense pressure from studies and I feel mentally exhausted almost every day,High Stress
+I feel severe anxiety about my exams and I am unable to concentrate properly,High Stress
+I am completely stressed out because everything feels out of control right now,High Stress
+I feel mentally drained and emotionally unstable due to continuous academic pressure,High Stress
+I am struggling to handle the overwhelming workload and I feel close to breaking down,High Stress
+I feel constant panic and fear about failing or disappointing others,High Stress
+I am experiencing extreme stress that affects my sleep and daily routine,High Stress
+I feel intense frustration and anger because I cannot cope with expectations,High Stress
+I am emotionally exhausted and feel unable to manage my responsibilities,High Stress
+I feel severe tension in my mind and cannot relax at all,High Stress
+I am overwhelmed by responsibilities and feel mentally suffocated,High Stress
+I feel deep anxiety and fear about my performance and future,High Stress
+I am under unbearable stress and I feel mentally collapsing,High Stress
+I feel constant pressure that makes it difficult to stay calm,High Stress
+I am extremely anxious and stressed about my academic workload,High Stress
+I feel emotionally disturbed and unable to focus due to stress,High Stress
+I am mentally exhausted and overwhelmed beyond control,High Stress
+I feel severe frustration because I cannot balance everything properly,High Stress
+I am under extreme mental strain and feel completely drained,High Stress
+I feel panic and intense anxiety whenever I think about exams,High Stress
+I am emotionally overwhelmed and feel like giving up,High Stress
+I feel unbearable stress due to continuous academic pressure,High Stress
+I am mentally overloaded and unable to cope with responsibilities,High Stress
+I feel extreme anxiety that affects my concentration and sleep,High Stress
+I am highly stressed and emotionally unstable due to workload,High Stress
+I feel intense mental pressure that I cannot manage anymore,High Stress
+I am extremely frustrated and stressed about meeting expectations,High Stress
+I feel severe emotional exhaustion from continuous pressure,High Stress
+I am overwhelmed to the point that I cannot think clearly anymore,High Stress
+
+i am tired and worried,Moderate Stress
+feeling busy and slightly stressed,Moderate Stress
+workload is manageable but tiring,Moderate Stress
+a bit anxious about deadlines,Moderate Stress
+I am slightly worried about exams,Moderate Stress
+I feel some pressure at work,Moderate Stress
+I am a bit anxious today,Moderate Stress
+I have a moderate workload,Moderate Stress
+I feel somewhat stressed,Moderate Stress
+I am concerned about deadlines,Moderate Stress
+I feel nervous but manageable,Moderate Stress
+I have a lot to do this week,Moderate Stress
+I feel tired and pressured,Moderate Stress
+I am handling stress somehow,Moderate Stress
+I feel uneasy about my performance,Moderate Stress
+I am slightly overwhelmed,Moderate Stress
+I feel some tension today,Moderate Stress
+I am worried about results,Moderate Stress
+I feel stressed but coping,Moderate Stress
+I have multiple tasks pending,Moderate Stress
+I feel anxious about tomorrow,Moderate Stress
+I am concerned about workload,Moderate Stress
+I feel mild stress,Moderate Stress
+I am dealing with some pressure,Moderate Stress
+I feel uncomfortable but okay,Moderate Stress
+I am stressed about assignments,Moderate Stress
+I feel pressure building up,Moderate Stress
+I am struggling a bit,Moderate Stress
+I feel restless,Moderate Stress
+I am worried about meeting expectations,Moderate Stress
+I feel slightly disturbed,Moderate Stress
+I am anxious about presentation,Moderate Stress
+I feel tense sometimes,Moderate Stress
+I am concerned about performance,Moderate Stress
+I feel stressed during preparation,Moderate Stress
+I am nervous about interview,Moderate Stress
+I feel overloaded,Moderate Stress
+I am not fully relaxed,Moderate Stress
+I feel some emotional pressure,Moderate Stress
+I am slightly upset,Moderate Stress
+I feel anxious about exams,Moderate Stress
+I am stressed about project work,Moderate Stress
+I feel uncomfortable with deadlines,Moderate Stress
+I am facing some challenges,Moderate Stress
+I feel mentally tired,Moderate Stress
+I am under moderate stress,Moderate Stress
+I feel distracted due to pressure,Moderate Stress
+I am tense but managing,Moderate Stress
+I feel uneasy about future,Moderate Stress
+I am slightly frustrated,Moderate Stress
+I feel concerned about studies,Moderate Stress
+I am stressed about workload,Moderate Stress
+I feel anxious sometimes,Moderate Stress
+I am pressured but coping,Moderate Stress
+I feel a bit stressed about exams,Moderate Stress
+I am worried about completing my tasks,Moderate Stress
+I feel some pressure from studies,Moderate Stress
+I am slightly anxious about results,Moderate Stress
+I feel uneasy about deadlines,Moderate Stress
+I am handling some stress right now,Moderate Stress
+I feel nervous before presentations,Moderate Stress
+I am stressed about upcoming interviews,Moderate Stress
+I feel overwhelmed but trying to cope,Moderate Stress
+I am under manageable pressure,Moderate Stress
+I feel tension building slowly,Moderate Stress
+I am worried about performance,Moderate Stress
+I feel mentally tired from work,Moderate Stress
+I am facing some academic pressure,Moderate Stress
+I feel anxious about my future,Moderate Stress
+I am stressed about responsibilities,Moderate Stress
+I feel uneasy and distracted,Moderate Stress
+I am worried about balancing tasks,Moderate Stress
+I feel mild anxiety during exams,Moderate Stress
+I am dealing with moderate pressure,Moderate Stress
+I feel concerned about deadlines,Moderate Stress
+I am slightly overwhelmed by workload,Moderate Stress
+I feel stressed about upcoming events,Moderate Stress
+I am nervous about evaluation,Moderate Stress
+I feel tension during preparation,Moderate Stress
+I am worried about completing syllabus,Moderate Stress
+I feel some mental pressure,Moderate Stress
+I am stressed but managing somehow,Moderate Stress
+I feel slightly disturbed today,Moderate Stress
+I am anxious but hopeful,Moderate Stress
+I feel tense before submission,Moderate Stress
+I am facing moderate anxiety,Moderate Stress
+I feel pressure from expectations,Moderate Stress
+I am struggling a little,Moderate Stress
+I feel stressed during meetings,Moderate Stress
+I am anxious about feedback,Moderate Stress
+I feel worried about exams tomorrow,Moderate Stress
+I am stressed but staying focused,Moderate Stress
+I feel uneasy about results,Moderate Stress
+I am managing moderate stress,Moderate Stress
+I feel pressure from responsibilities,Moderate Stress
+I am slightly worried about future plans,Moderate Stress
+I feel anxious but motivated,Moderate Stress
+I am tense about deadlines,Moderate Stress
+I feel stressed with academic tasks,Moderate Stress
+I am overwhelmed but coping,Moderate Stress
+I feel worried about workload,Moderate Stress
+I am dealing with mental pressure,Moderate Stress
+I feel uncomfortable with expectations,Moderate Stress
+I am anxious yet hopeful,Moderate Stress
+I feel somewhat stressed about my upcoming exams because there is still a lot of syllabus left to cover,Moderate Stress
+Although I am managing my workload I feel some pressure building up as deadlines approach,Moderate Stress
+I am slightly anxious about my performance since I want to meet everyone’s expectations,Moderate Stress
+I feel nervous before presentations but I try to control my anxiety and stay focused,Moderate Stress
+There is a moderate level of pressure due to assignments and academic responsibilities,Moderate Stress
+I feel worried about balancing my studies and personal life effectively,Moderate Stress
+Even though I am coping I sometimes feel mentally tired from continuous work,Moderate Stress
+I feel uneasy about my preparation and wonder if I am doing enough,Moderate Stress
+There is some tension in my mind regarding future plans and career decisions,Moderate Stress
+I feel stressed but I am trying to manage everything step by step,Moderate Stress
+I experience mild anxiety when I think about my pending tasks and responsibilities,Moderate Stress
+Although I am not extremely stressed I feel pressure during exam preparation,Moderate Stress
+I feel slightly overwhelmed because of multiple deadlines in the same week,Moderate Stress
+I am concerned about my academic performance and feel some mental strain,Moderate Stress
+I feel nervous when thinking about interviews and future opportunities,Moderate Stress
+There is a noticeable level of stress due to expectations from family and teachers,Moderate Stress
+I feel mentally tired but still trying to push through the pressure,Moderate Stress
+I sometimes feel restless thinking about unfinished tasks,Moderate Stress
+Although I am coping I feel some anxiety about my results,Moderate Stress
+I feel distracted due to moderate pressure from studies and projects,Moderate Stress
+I feel worried about not completing everything on time,Moderate Stress
+There is a sense of pressure that makes me slightly uncomfortable,Moderate Stress
+I feel some tension in my mind because of workload,Moderate Stress
+I am anxious but still hopeful about my preparation,Moderate Stress
+I feel moderate stress because of balancing academic and personal responsibilities,Moderate Stress
+I experience mild frustration due to continuous assignments,Moderate Stress
+I feel stressed but not completely overwhelmed,Moderate Stress
+There is noticeable mental pressure although I am managing it carefully,Moderate Stress
+I feel nervous about meeting deadlines and expectations,Moderate Stress
+I sometimes feel anxious about whether I will perform well enough,Moderate Stress
+
+
+i am calm and relaxed,Low Stress
+I feel calm and relaxed today because I completed all my tasks on time and everything seems under control,Low Stress
+Even though I have work to do I feel mentally peaceful and confident that I can manage it effectively,Low Stress
+I am feeling emotionally balanced and satisfied with my preparation for the upcoming exams,Low Stress
+My day has been productive and smooth and I do not feel any significant pressure at the moment,Low Stress
+I feel stable and relaxed because I planned my schedule properly and finished my responsibilities early,Low Stress
+Despite minor challenges I feel confident and mentally composed about handling everything today,Low Stress
+I slept well last night and I feel refreshed focused and free from any major stress,Low Stress
+I am happy with my academic progress and I feel calm about my future plans,Low Stress
+Everything is going according to my plan and I feel relaxed about my performance,Low Stress
+I am enjoying my work and I do not feel overwhelmed by any responsibilities right now,Low Stress
+My mind feels clear and I am able to concentrate without feeling anxious or pressured,Low Stress
+I feel emotionally secure and satisfied with the way things are progressing in my life,Low Stress
+Although I have assignments to complete I feel confident that I can finish them without stress,Low Stress
+I am comfortable with my preparation level and I do not feel nervous about exams,Low Stress
+I feel positive  motivated and mentally strong about achieving my goals,Low Stress
+I am peaceful and relaxed because I managed my time efficiently this week,Low Stress
+I feel content and emotionally stable even with small challenges around me,Low Stress
+I am not feeling anxious or pressured because I trust my preparation and skills,Low Stress
+I feel mentally fresh and ready to take on new tasks calmly and confidently,Low Stress
+Even during busy days I maintain a calm mindset and do not feel stressed,Low Stress
+I feel emotionally balanced and comfortable with my academic responsibilities,Low Stress
+I am confident in my abilities and do not feel pressured by expectations,Low Stress
+I feel relaxed knowing that I have prepared well for everything ahead,Low Stress
+My daily routine is smooth and I feel calm about upcoming deadlines,Low Stress
+I feel mentally peaceful and stable throughout the day,Low Stress
+I am enjoying my studies without feeling overwhelmed or anxious,Low Stress
+I feel satisfied with my progress and I am not worried about results,Low Stress
+I am calm and composed even when facing minor difficulties,Low Stress
+I feel stress free and confident about completing my work,Low Stress
+I am emotionally strong and relaxed about my responsibilities,Low Stress
+feeling happy and peaceful,Low Stress
+everything is going well,Low Stress
+i feel confident and positive,Low Stress
+I feel calm and relaxed today,Low Stress
+Everything is going smoothly,Low Stress
+I am happy with my progress,Low Stress
+I feel peaceful this morning,Low Stress
+I am enjoying my work,Low Stress
+I slept well last night,Low Stress
+I feel confident about my tasks,Low Stress
+I am comfortable with my schedule,Low Stress
+Today is a good day,Low Stress
+I feel mentally stable,Low Stress
+I am satisfied with my performance,Low Stress
+I feel positive and motivated,Low Stress
+I am relaxed and stress free,Low Stress
+My mind feels clear,Low Stress
+I feel balanced and calm,Low Stress
+I am not worried about anything,Low Stress
+I feel energetic and happy,Low Stress
+Everything feels under control,Low Stress
+I am feeling peaceful,Low Stress
+I feel good about my preparation,Low Stress
+I am comfortable with my workload,Low Stress
+I am managing things well,Low Stress
+I feel stable and secure,Low Stress
+I am relaxed about the exam,Low Stress
+I feel emotionally balanced,Low Stress
+My day is going well,Low Stress
+I feel optimistic today,Low Stress
+I am in a good mood,Low Stress
+I feel refreshed,Low Stress
+I am calm and composed,Low Stress
+I feel relaxed at work,Low Stress
+I am stress free today,Low Stress
+I feel light and happy,Low Stress
+I am feeling fine,Low Stress
+I feel positive vibes,Low Stress
+I am comfortable and relaxed,Low Stress
+I feel confident about my future,Low Stress
+I am not anxious at all,Low Stress
+I feel relaxed during preparation,Low Stress
+I feel calm about my responsibilities,Low Stress
+I am happy with my results,Low Stress
+I feel cheerful today,Low Stress
+I am peaceful and relaxed,Low Stress
+I feel mentally fresh,Low Stress
+I am satisfied with everything,Low Stress
+I feel good about myself,Low Stress
+I feel calm and safe,Low Stress
+I am enjoying my day,Low Stress
+I feel mentally strong,Low Stress
+I am stable and relaxed,Low Stress
+I feel relaxed after finishing my work,Low Stress
+I am feeling very peaceful today,Low Stress
+My mind feels calm and stable,Low Stress
+I am satisfied with my achievements,Low Stress
+I feel comfortable with my progress,Low Stress
+I am enjoying my study time,Low Stress
+I feel balanced and composed,Low Stress
+I am confident about my preparation,Low Stress
+I feel mentally relaxed,Low Stress
+I am happy with my daily routine,Low Stress
+I feel positive about everything,Low Stress
+I am emotionally stable today,Low Stress
+I feel calm even during exams,Low Stress
+I am not worried about deadlines,Low Stress
+I feel secure and confident,Low Stress
+I am at peace with my schedule,Low Stress
+I feel steady and relaxed,Low Stress
+I am comfortable with my responsibilities,Low Stress
+I feel refreshed and focused,Low Stress
+I am relaxed and productive,Low Stress
+I feel satisfied with my work output,Low Stress
+I am not under any pressure,Low Stress
+I feel cheerful and calm,Low Stress
+I am emotionally balanced today,Low Stress
+I feel comfortable about my results,Low Stress
+I am relaxed during presentations,Low Stress
+I feel safe and confident,Low Stress
+I am peaceful and stable,Low Stress
+I feel relaxed after studying,Low Stress
+I am not feeling any stress today,Low Stress
+I feel calm and happy,Low Stress
+I am comfortable with my performance,Low Stress
+I feel motivated and positive,Low Stress
+I am enjoying my free time,Low Stress
+I feel calm about upcoming tasks,Low Stress
+I am satisfied with my preparation level,Low Stress
+I feel light and stress free,Low Stress
+I am in a relaxed mood,Low Stress
+I feel calm and emotionally strong,Low Stress
+I am positive about tomorrow,Low Stress
+I feel relaxed while working,Low Stress
+I am mentally relaxed today,Low Stress
+I feel stable and confident,Low Stress
+I am calm about the situation,Low Stress
+I feel fine and stress free,Low Stress
+I am emotionally steady,Low Stress
+I feel peaceful about my life,Low Stress
+I am relaxed about everything,Low Stress
+I feel calm and in control,Low Stress
+I am confident and relaxed,Low Stress
+I feel completely out of control and extremely stressed about everything happening around me,High Stress
+I am overwhelmed with deadlines and cannot handle the pressure anymore,High Stress
+I feel intense anxiety that is affecting my daily life and concentration,High Stress
+I am mentally exhausted and unable to manage the stress I am facing right now,High Stress
+I feel like everything is collapsing and I cannot cope with the pressure,High Stress
+I am experiencing severe stress and I feel emotionally drained every day,High Stress
+I feel extreme anxiety about my future and it is making me panic constantly,High Stress
+I am under unbearable pressure and I feel like breaking down completely,High Stress
+I feel mentally suffocated due to continuous workload and expectations,High Stress
+I am highly stressed and unable to control my thoughts or emotions,High Stress
+
+I feel slightly stressed but I believe I can manage my tasks effectively,Moderate Stress
+I am a bit anxious about my work but I am trying to stay focused,Moderate Stress
+I feel some pressure building up but I am handling it step by step,Moderate Stress
+I am somewhat worried about my performance but I am staying positive,Moderate Stress
+I feel moderate stress due to workload but I am coping with it,Moderate Stress
+I am slightly nervous but I believe I can complete my responsibilities,Moderate Stress
+I feel a bit overwhelmed but I am trying to stay calm and focused,Moderate Stress
+I am experiencing some stress but I am managing it carefully,Moderate Stress
+I feel pressure from deadlines but I am working through it,Moderate Stress
+I am a little anxious but I am confident I can handle things,Moderate Stress
+
+I feel very calm and peaceful as everything is under control,Low Stress
+I am relaxed and confident about completing my tasks without pressure,Low Stress
+I feel mentally fresh and free from any stress or anxiety,Low Stress
+I am enjoying my work and feeling completely relaxed today,Low Stress
+I feel positive and calm about everything happening around me,Low Stress
+I am stress free and confident about my performance,Low Stress
+I feel peaceful and emotionally balanced throughout the day,Low Stress
+I am relaxed and focused without any pressure or worry,Low Stress
+I feel happy and satisfied with my progress and routine,Low Stress
+I am calm and comfortable with my responsibilities and schedule,Low Stress
+
+sad,Moderate Stress
+tension,Moderate Stress
+depressed,High Stress
+lonely,Moderate Stress
+upset,Moderate Stress
+stressed,High Stress
+anxious,High Stress
+worried,Moderate Stress
+nervous,Moderate Stress
+frustrated,Moderate Stress
+angry,High Stress
+hopeless,High Stress
+helpless,High Stress
+exhausted,High Stress
+overwhelmed,High Stress
+panicked,High Stress
+crying,High Stress
+miserable,High Stress
+happy,Low Stress
+calm,Low Stress
+relaxed,Low Stress
+fine,Low Stress
+peaceful,Low Stress
+good,Low Stress
+great,Low Stress
+okay,Low Stress
+feeling sad,Moderate Stress
+feeling depressed,High Stress
+feeling stressed,High Stress
+feeling anxious,High Stress
+feeling happy,Low Stress
+feeling good,Low Stress
+feeling low,Moderate Stress
+feeling down,Moderate Stress
+feeling bad,Moderate Stress
+feeling terrible,High Stress
+feeling great,Low Stress
+feeling worried,Moderate Stress
+feeling nervous,Moderate Stress
+feeling lonely,Moderate Stress
+feeling upset,Moderate Stress
+feeling overwhelmed,High Stress
+feeling hopeless,High Stress
+feeling exhausted,High Stress
+I am feeling sad,Moderate Stress
+I feel sad,Moderate Stress
+I feel sad today,Moderate Stress
+I am sad,Moderate Stress
+I am feeling very sad,Moderate Stress
+I feel really sad about everything,Moderate Stress
+I have been feeling sad lately,Moderate Stress
+I am feeling down and sad,Moderate Stress
+I feel sad and lonely,Moderate Stress
+I am feeling unhappy,Moderate Stress
+I feel unhappy today,Moderate Stress
+I am not feeling happy,Moderate Stress
+I feel low and sad,Moderate Stress
+I feel moody and upset,Moderate Stress
+I am feeling upset today,Moderate Stress
+I feel upset and frustrated,Moderate Stress
+I am feeling down,Moderate Stress
+I feel really down today,Moderate Stress
+I am in a bad mood,Moderate Stress
+I feel emotionally low,Moderate Stress
+I am feeling blue,Moderate Stress
+I feel heartbroken,Moderate Stress
+I feel empty inside,Moderate Stress
+I am feeling tension,Moderate Stress
+I feel tension in my mind,Moderate Stress
+I have a lot of tension,Moderate Stress
+there is tension in my life,Moderate Stress
+I am feeling tense and sad,Moderate Stress
+I feel depressed,High Stress
+I am feeling depressed,High Stress
+I feel deeply depressed,High Stress
+I am extremely depressed,High Stress
+I feel depressed and hopeless,High Stress
+I am so depressed I cannot function,High Stress
+I feel depressed and lonely,High Stress
+I am feeling very depressed lately,High Stress
+I feel deeply sad and cannot stop crying,High Stress
+I am so sad that I cannot do anything,High Stress
+I feel extremely sad and hopeless,High Stress
+I feel like crying all the time,High Stress
+I am crying because of stress,High Stress
+I feel miserable and worthless,High Stress
+I feel like there is no hope left,High Stress
+I am deeply unhappy with my life,High Stress
+I feel emotionally broken,High Stress
+I am in extreme emotional pain,High Stress
+I feel completely hopeless about everything,High Stress
+I am suffering from deep sadness,High Stress
+I was slightly sad earlier but I feel better now,Low Stress
+I felt a little down but I am okay now,Low Stress
+I had a small moment of sadness but I am fine,Low Stress
+I feel a little low but nothing serious,Low Stress
+I was briefly upset but things are good now,Low Stress
