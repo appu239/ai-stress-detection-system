@@ -120,8 +120,60 @@ const Register = () => {
           {/* GOOGLE LOGIN */}
           <div className="flex justify-center mb-4">
             <GoogleLogin
-              onSuccess={() => {}}
-              onError={() => {}}
+              onSuccess={async (credentialResponse) => {
+                try {
+                  // Decode Google JWT to get user info
+                  const token = credentialResponse.credential;
+                  const payload = JSON.parse(atob(token.split('.')[1]));
+                  const googleName = payload.name || payload.given_name || "Google User";
+                  const googleEmail = payload.email;
+
+                  // Register user with a secure default password (they logged in via Google)
+                  const res = await fetch(getApiUrl("/register"), {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      name: googleName,
+                      email: googleEmail,
+                      password: `Google_${googleEmail}_${Date.now()}`
+                    }),
+                  });
+
+                  const data = await res.json();
+
+                  if (!res.ok && !data.error?.includes("already")) {
+                    alert(data.error || "Google registration failed");
+                    return;
+                  }
+
+                  // Auto-login after Google registration
+                  const loginRes = await fetch(getApiUrl("/login"), {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      email: googleEmail,
+                      password: `Google_${googleEmail}_${Date.now()}`
+                    }),
+                  });
+
+                  if (loginRes.ok) {
+                    const loginData = await loginRes.json();
+                    localStorage.setItem("auth_token", loginData.token);
+                    localStorage.setItem("auth_role", loginData.role || "USER");
+                    localStorage.setItem("user_name", googleName);
+                    navigate("/user/analyze");
+                  } else {
+                    alert("Google registration successful! Please login with your Google email.");
+                    navigate("/login");
+                  }
+                } catch (err) {
+                  console.error("Google login error:", err);
+                  alert("Google sign-in failed. Please register with email and password instead.");
+                }
+              }}
+              onError={() => {
+                alert("Google sign-in is not available. Please register with email and password.");
+              }}
             />
           </div>
 
