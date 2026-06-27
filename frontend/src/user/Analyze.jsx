@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
-import { getUserInfo, getAuthToken } from "../utils/auth";
+import { getAuthToken } from "../utils/auth";
 import { getApiUrl } from "../utils/api";
 
 export default function Analyze() {
