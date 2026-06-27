@@ -7,6 +7,7 @@ import { getApiUrl } from "../utils/api";
 const Landing = () => {
   const navigate = useNavigate();
   const [userCount, setUserCount] = useState(50);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   useEffect(() => {
     fetch(getApiUrl("/api/user-count"))
       .then((res) => res.json())
@@ -28,8 +29,9 @@ const Landing = () => {
       transition={{ duration: 0.4 }}
     >
 
+
       {/* ================= HEADER ================= */}
-      <header className="sticky top-0 backdrop-blur-md bg-white/70 dark:bg-black/70 transition-all duration-300">
+      <header className="sticky top-0 backdrop-blur-md bg-white/70 dark:bg-black/70 transition-all duration-300 z-50">
         <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
 
           <div className="flex items-center gap-3">
@@ -60,7 +62,42 @@ const Landing = () => {
             </button>
           </div>
 
+          {/* MOBILE MENU BUTTON */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            aria-label="Toggle menu"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              {mobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+
         </div>
+
+        {/* MOBILE MENU DROPDOWN */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-[#111418] px-6 py-4 space-y-3 animate-in slide-in-from-top duration-200">
+            <a href="/" className="block text-sm font-semibold py-2 hover:text-primary transition-colors">Home</a>
+            <a href="#features" className="block text-sm font-semibold py-2 hover:text-primary transition-colors">Features</a>
+            <a href="#about" className="block text-sm font-semibold py-2 hover:text-primary transition-colors">About</a>
+            <hr className="border-slate-200 dark:border-slate-700" />
+            <button
+              onClick={() => { setMobileMenuOpen(false); navigate("/login"); }}
+              className="w-full py-3 rounded-lg text-sm font-bold text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all border border-slate-200 dark:border-slate-700">
+              Login
+            </button>
+            <button
+              onClick={() => { setMobileMenuOpen(false); navigate("/register"); }}
+              className="w-full py-3 bg-primary text-white rounded-lg text-sm font-bold shadow-lg shadow-primary/20 transition-all">
+              Get Started
+            </button>
+          </div>
+        )}
       </header>
 
 

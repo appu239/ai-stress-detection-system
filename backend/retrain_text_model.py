@@ -148,7 +148,7 @@ joblib.dump(model, MODEL_FILE)
 print(f"Saving vectorizer to {VECTORIZER_FILE}...")
 joblib.dump(vectorizer, VECTORIZER_FILE)
 
-print(f"\n✅ Retraining complete!")
+print(f"\n[OK] Retraining complete!")
 print(f"   - {MODEL_FILE}: {os.path.getsize(MODEL_FILE)} bytes")
 print(f"   - {VECTORIZER_FILE}: {os.path.getsize(VECTORIZER_FILE)} bytes")
 print(f"\nNext steps:")
