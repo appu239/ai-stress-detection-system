@@ -10,14 +10,17 @@ const Landing = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   useEffect(() => {
     fetch(getApiUrl("/api/user-count"))
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) return; // endpoint may not exist, that's fine
+        return res.json();
+      })
       .then((data) => {
-        if (data.count !== undefined) {
+        if (data && data.count !== undefined) {
           setUserCount(50 + data.count);
         }
       })
-      .catch((err) => {
-        console.error("Failed to fetch user count", err);
+      .catch(() => {
+        // Silently fail - default userCount of 50 is fine
       });
   }, []);
   return (

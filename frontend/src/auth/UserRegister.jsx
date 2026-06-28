@@ -109,7 +109,7 @@ const Register = () => {
         </div>
       )}
 
-      {/* MAIN */
+      {/* MAIN */}
       <main className="flex-1 flex items-center justify-center py-16 px-6">
         <div className="max-w-[440px] w-full bg-white rounded-2xl shadow-xl border p-8">
 
