@@ -128,14 +128,17 @@ const Register = () => {
                   const googleName = payload.name || payload.given_name || "Google User";
                   const googleEmail = payload.email;
 
-                  // Register user with a secure default password (they logged in via Google)
+                  // Use deterministic password for Google users (same value for register + login)
+                  const googlePassword = `Google_${googleEmail}_StressAI2024`;
+
+                  // Register user with deterministic password
                   const res = await fetch(getApiUrl("/register"), {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                       name: googleName,
                       email: googleEmail,
-                      password: `Google_${googleEmail}_${Date.now()}`
+                      password: googlePassword
                     }),
                   });
 
@@ -152,7 +155,7 @@ const Register = () => {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                       email: googleEmail,
-                      password: `Google_${googleEmail}_${Date.now()}`
+                      password: googlePassword
                     }),
                   });
 
@@ -238,6 +241,16 @@ const Register = () => {
             </button>
 
           </form>
+
+          <p className="text-center text-sm text-gray-500 mt-4">
+            Already have an account?{" "}
+            <button
+              onClick={() => navigate("/login")}
+              className="text-primary font-semibold hover:underline"
+            >
+              Login
+            </button>
+          </p>
         </div>
       </main>
 

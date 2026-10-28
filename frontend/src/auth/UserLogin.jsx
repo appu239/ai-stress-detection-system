@@ -49,9 +49,7 @@ function UserLogin() {
         return;
       }
 
-      console.log("Login Response Data:", data); // DEBUG LOG
-
-      // ✅ FIXED: use keys expected by auth.js
+      // Store auth data
       localStorage.setItem("auth_token", data.token);
       localStorage.setItem("auth_role", data.role);
       if (data.name) {
@@ -60,10 +58,8 @@ function UserLogin() {
 
       // ✅ Redirect based on role
       if (data.role === "ADMIN") {
-        console.log("Redirecting to ADMIN dashboard"); // DEBUG LOG
         navigate("/admin/dashboard");
       } else {
-        console.log("Redirecting to USER analytics"); // DEBUG LOG
         navigate("/user/analyze");
       }
     } catch (error) {

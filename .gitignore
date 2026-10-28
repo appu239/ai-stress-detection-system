@@ -2,10 +2,14 @@
 venv/
 backend/venv/
 node_modules/
+backend/node_modules/
 __pycache__/
 *.wav
 *.webm
 *.input
 *.pdf
+temp.wav
 # Allow training data CSV
 !backend/stress_text_data.csv
+# Allow model files (needed for deployment)
+!backend/*.pkl

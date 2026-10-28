@@ -201,7 +201,7 @@ export default function AdminAnalytics() {
         <div className="grid md:grid-cols-3 gap-4">
           {[
             "Peak stress observed Tuesday mornings (9–11 AM).",
-            "Audio confidence improved by 4.2% this week.",
+            "Prediction confidence is reported per analysis; no verified trend is available.",
             "15% rise in critical stress in Tech Support team.",
           ].map((text, i) => (
             <div

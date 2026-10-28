@@ -25,7 +25,22 @@ export default function History() {
       const res = await axios.get(getApiUrl("/api/history"), {
         headers: { Authorization: `Bearer ${getAuthToken()}` }
       });
-      setHistory(res.data);
+      if (!Array.isArray(res.data)) {
+        throw new Error("Backend returned invalid history data");
+      }
+      setHistory(res.data.map((record) => {
+        const transcript = record.transcription ?? record.speech_text ?? record.text;
+        const hasTranscript = typeof transcript === "string" &&
+          !["[no text provided]", "no text"].includes(transcript.trim().toLowerCase());
+
+        return {
+          ...record,
+          _id: record.id || record._id,
+          type: (record.source_type || record.type || "").toLowerCase(),
+          prediction: record.stress_level || record.prediction,
+          speech_text: hasTranscript ? transcript.trim() : "",
+        };
+      }));
     } catch (err) {
       console.error("Failed to fetch history:", err);
     } finally {
@@ -49,8 +64,11 @@ export default function History() {
     const exportData = filteredItems.map(item => ({
       Type: item.type,
       Level: item.prediction,
-      Confidence: (item.confidence * 100).toFixed(1) + "%",
-      Transcription: item.speech_text || item.text,
+      Confidence: item.confidence == null
+        ? "Unavailable"
+        : (item.confidence * 100).toFixed(1) + "%",
+      Transcription: item.speech_text ||
+        (item.type === "audio" ? "Transcription unavailable" : "No text recorded"),
       Date: new Date(item.timestamp).toLocaleString()
     }));
     downloadCSV(exportData, "stress_history");
@@ -214,7 +232,7 @@ export default function History() {
                   </td>
 
                   <td className="px-8 py-6 italic text-slate-600 dark:text-slate-400 max-w-xs truncate">
-                    “{item.speech_text || item.text}”
+                    “{item.speech_text || (item.type === "audio" ? "Transcription unavailable" : "No text recorded")}”
                   </td>
 
                   <td className="px-8 py-6">

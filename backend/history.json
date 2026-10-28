@@ -1,0 +1,139 @@
+[
+  {
+    "id": "31226f0c-b9a5-49a6-922d-af42cfe3d870",
+    "source_type": "Audio",
+    "stress_level": "High Stress",
+    "confidence": 0.915,
+    "transcription": "[No text provided]",
+    "timestamp": "2026-09-24T20:35:34.213091"
+  },
+  {
+    "id": "eef8b768-b5fe-44fc-8b96-42f7bbea8420",
+    "source_type": "Audio",
+    "stress_level": "Low Stress",
+    "confidence": 0.0,
+    "transcription": "[No text provided]",
+    "timestamp": "2026-10-15T06:20:45.960227"
+  },
+  {
+    "id": "612a2444-2eca-468e-aafc-8610beacdc75",
+    "source_type": "Text",
+    "stress_level": "Low Stress",
+    "confidence": 0.0,
+    "transcription": "tired",
+    "timestamp": "2026-10-15T06:20:57.600417"
+  },
+  {
+    "id": "738427a2-bc28-493f-a26f-961eb6cc45ae",
+    "source_type": "Text",
+    "stress_level": "Low Stress",
+    "confidence": 0.0,
+    "transcription": "tired",
+    "timestamp": "2026-10-15T06:20:59.833670"
+  },
+  {
+    "id": "6d08f663-2033-4204-9f47-abd2742dacc1",
+    "source_type": "Text",
+    "stress_level": "Low Stress",
+    "confidence": 0.0,
+    "transcription": "happy\r\n",
+    "timestamp": "2026-10-15T06:21:06.738319"
+  },
+  {
+    "id": "dddb6ac9-4b77-4701-a05b-9c63c8f8171f",
+    "source_type": "Audio",
+    "stress_level": "Low Stress",
+    "confidence": 0.0,
+    "transcription": "[No text provided]",
+    "timestamp": "2026-10-15T06:21:14.855153"
+  },
+  {
+    "id": "3bbacb94-b08e-493e-a722-965dd2e93277",
+    "source_type": "Audio",
+    "stress_level": "High Stress",
+    "confidence": 0.85,
+    "transcription": null,
+    "timestamp": "2026-10-15T12:10:53.222231"
+  },
+  {
+    "id": "79d4e119-e512-47ee-8828-b33526189055",
+    "source_type": "Text",
+    "stress_level": "Moderate Stress",
+    "confidence": 0.9857,
+    "transcription": "tired",
+    "timestamp": "2026-10-15T12:11:26.832865"
+  },
+  {
+    "id": "94614fae-4d83-41bd-9fcd-eca310a7a924",
+    "source_type": "Audio",
+    "stress_level": "Low Stress",
+    "confidence": 0.78,
+    "transcription": null,
+    "audio_prediction": {
+      "predicted_stress_level": "Low Stress",
+      "confidence": 0.78
+    },
+    "text_prediction": null,
+    "timestamp": "2026-10-15T13:05:39.364553"
+  },
+  {
+    "id": "ffccf845-ba33-4e85-be51-66b0e3fe0ffd",
+    "source_type": "Audio",
+    "stress_level": "Low Stress",
+    "confidence": 0.775,
+    "transcription": null,
+    "audio_prediction": {
+      "predicted_stress_level": "Low Stress",
+      "confidence": 0.775
+    },
+    "text_prediction": null,
+    "timestamp": "2026-10-15T13:05:54.619038"
+  },
+  {
+    "id": "517ad832-fa68-4a3c-a240-4be64ee463a5",
+    "source_type": "Audio",
+    "stress_level": "High Stress",
+    "confidence": 0.885,
+    "transcription": null,
+    "audio_prediction": {
+      "predicted_stress_level": "High Stress",
+      "confidence": 0.885
+    },
+    "text_prediction": null,
+    "timestamp": "2026-10-15T13:06:03.020226"
+  },
+  {
+    "id": "a9a4c1e2-df3e-4547-b1ae-82f28bd0484c",
+    "source_type": "Audio",
+    "stress_level": "Low Stress",
+    "confidence": 0.74,
+    "transcription": "They will be on the square, where we can see them everywhere.",
+    "audio_prediction": {
+      "predicted_stress_level": "Low Stress",
+      "confidence": 0.74
+    },
+    "text_prediction": {
+      "predicted_stress_level": "Low Stress",
+      "confidence": 0.6516157973478518,
+      "confidence_note": null
+    },
+    "timestamp": "2026-10-15T13:14:45.087387"
+  },
+  {
+    "id": "f705daab-4c3f-4195-b2a7-cb15ce1c783e",
+    "source_type": "Audio",
+    "stress_level": "Moderate Stress",
+    "confidence": 0.8,
+    "transcription": "At the end of the weekend, I've always been home and I've visited Agnes.",
+    "audio_prediction": {
+      "predicted_stress_level": "Moderate Stress",
+      "confidence": 0.8
+    },
+    "text_prediction": {
+      "predicted_stress_level": "Low Stress",
+      "confidence": 0.7334002333098257,
+      "confidence_note": null
+    },
+    "timestamp": "2026-10-15T13:15:02.314639"
+  }
+]

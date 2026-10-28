@@ -154,14 +154,18 @@ const Landing = () => {
       </section>
       {/* ================= STATS ================= */}
       <section className="bg-white dark:bg-gray-900 py-14 border-y border-gray-100 dark:border-gray-800">
-        <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-2 gap-6 text-center">
+        <div className="max-w-[1200px] mx-auto px-6 grid md:grid-cols-3 gap-6 text-center">
           <div className="p-8 rounded-xl border bg-background-light/30 dark:bg-gray-900/40">
             <p className="text-sm font-semibold uppercase tracking-wider text-gray-500">Active Users</p>
             <p className="text-4xl font-black mt-2">{userCount}+</p>
           </div>
           <div className="p-8 rounded-xl border bg-background-light/30 dark:bg-gray-900/40">
-            <p className="text-sm font-semibold uppercase tracking-wider text-gray-500">Analysis Accuracy</p>
-            <p className="text-4xl font-black mt-2">98.5%</p>
+            <p className="text-sm font-semibold uppercase tracking-wider text-gray-500">Text Stress Model</p>
+            <p className="text-2xl font-black mt-2">SVM + TF-IDF</p>
+          </div>
+          <div className="p-8 rounded-xl border bg-background-light/30 dark:bg-gray-900/40">
+            <p className="text-sm font-semibold uppercase tracking-wider text-gray-500">Speech Stress Model</p>
+            <p className="text-2xl font-black mt-2">Random Forest + MFCC</p>
           </div>
         </div>
       </section>

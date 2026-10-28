@@ -5,7 +5,7 @@
 // src/utils/api.js
 
 export const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "https://stress-backend-w7nb.onrender.com";
+  process.env.REACT_APP_API_URL || "http://127.0.0.1:10000";
 
 // ✅ REGISTER API
 export const registerUser = async (data) => {

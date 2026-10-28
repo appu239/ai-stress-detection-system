@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios";
 import { getAuthToken } from "../utils/auth";
 import { getApiUrl } from "../utils/api";
 
@@ -42,10 +41,13 @@ export default function Analyze() {
   const [loading, setLoading] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("en");
 
-  const [stressLevel, setStressLevel] = useState("Low Stress"); // Default to low instead of high
-  const [stressPercent, setStressPercent] = useState("0%");
-  const [confidence, setConfidence] = useState(0);
-  const [transcription, setTranscription] = useState(""); // Clear hardcoded placeholder
+  const [stressLevel, setStressLevel] = useState(null);
+  const [confidence, setConfidence] = useState(null);
+  const [predictionSource, setPredictionSource] = useState(null);
+  const [audioPrediction, setAudioPrediction] = useState(null);
+  const [textPrediction, setTextPrediction] = useState(null);
+  const [transcription, setTranscription] = useState("");
+  const [transcriptionMessage, setTranscriptionMessage] = useState("");
   const [guidance, setGuidance] = useState([]);
 
   /* =========================
@@ -53,7 +55,6 @@ export default function Analyze() {
      ========================= */
   const stressConfig = {
     "Low Stress": {
-      percent: "25%",
       color: "#10b981",
       bg: "#ecfdf5",
       guidance: [
@@ -64,7 +65,6 @@ export default function Analyze() {
       ],
     },
     "Moderate Stress": {
-      percent: "55%",
       color: "#f59e0b",
       bg: "#fffbeb",
       guidance: [
@@ -75,7 +75,6 @@ export default function Analyze() {
       ],
     },
     "High Stress": {
-      percent: "75%",
       color: "#f43f5e",
       bg: "#fff1f2",
       guidance: [
@@ -114,14 +113,23 @@ export default function Analyze() {
   const triggerAnalysis = async (blob, text) => {
     try {
       setLoading(true);
-      setTranscription("AI is listening and evaluating...");
+      setStressLevel(null);
+      setConfidence(null);
+      setPredictionSource(null);
+      setAudioPrediction(null);
+      setTextPrediction(null);
+      setGuidance([]);
+      setTranscription(blob ? "Analyzing audio..." : "Analyzing text...");
+      setTranscriptionMessage("");
 
       // Always use FormData for consistency
       const formData = new FormData();
       if (blob) {
-        formData.append("audio", blob, "recording.wav");
+        formData.append("audio", blob, blob.name || "recording.wav");
       }
-      formData.append("text", text || "No text");
+      if (text && text.trim()) {
+        formData.append("text", text);
+      }
       formData.append("language", selectedLanguage);
 
       const res = await fetch(getApiUrl("/predict"), {
@@ -132,36 +140,54 @@ export default function Analyze() {
         body: formData,
       });
 
+      const data = await res.json().catch(() => null);
       if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || "Backend error");
+        const errorData = data || {};
+        const details = errorData.details ? `: ${errorData.details}` : "";
+        throw new Error(`${errorData.error || "Backend error"}${details}`);
       }
 
-      const data = await res.json();
-      console.log("DEBUG: Backend response:", data);
-
-      const config =
-        stressConfig[data.predicted_stress_level] ||
-        stressConfig["Low Stress"];
-      setStressLevel(data.predicted_stress_level || "Low Stress");
-      setStressPercent(config.percent);
-      setConfidence(data.confidence || 0);
+      if (!data || typeof data !== "object") {
+        throw new Error("Backend returned an invalid response");
+      }
+      const config = stressConfig[data.predicted_stress_level];
+      if (!config) {
+        throw new Error("Backend returned an invalid stress prediction");
+      }
+      const isValidConfidence = (value) =>
+        value == null ||
+        (typeof value === "number" &&
+          Number.isFinite(value) &&
+          value >= 0 &&
+          value <= 1);
+      if (
+        !isValidConfidence(data.confidence) ||
+        !isValidConfidence(data.audio_prediction?.confidence) ||
+        !isValidConfidence(data.text_prediction?.confidence)
+      ) {
+        throw new Error("Backend returned an invalid confidence value");
+      }
+      setStressLevel(data.predicted_stress_level);
+      setConfidence(data.confidence);
+      setPredictionSource(data.prediction_source);
+      setAudioPrediction(data.audio_prediction || null);
+      setTextPrediction(data.text_prediction || null);
       setGuidance(config.guidance);
 
-      const finalTranscript = data.speech_text || text || "[No speech text provided]";
-      setTranscription(finalTranscript);
+      setTranscription(data.speech_text || text || "");
+      setTranscriptionMessage(data.transcription_message || "");
 
-      if (data.debug_probs) {
-        console.table({
-          "Stress Level": data.predicted_stress_level,
-          "Confidence": (data.confidence * 100).toFixed(2) + "%",
-          "Raw Probs": data.debug_probs.map(p => p.toFixed(4)).join(", ")
-        });
-      }
     } catch (err) {
       console.error("ANALYSIS ERROR:", err);
       alert("Analysis failed: " + err.message);
-      setTranscription("[Analysis Error]");
+      setStressLevel(null);
+      setConfidence(null);
+      setPredictionSource(null);
+      setAudioPrediction(null);
+      setTextPrediction(null);
+      setGuidance([]);
+      setTranscription(`Analysis failed: ${err.message}`);
+      setTranscriptionMessage("");
     } finally {
       setLoading(false);
     }
@@ -181,6 +207,9 @@ export default function Analyze() {
 
           <p className="text-slate-600 dark:text-slate-400 mt-1">
             Review your current stress indicators and analysis results.
+          </p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
+            Experimental stress estimate only; not a medical assessment or diagnosis.
           </p>
         </div>
 
@@ -267,7 +296,7 @@ export default function Analyze() {
 
                 <input
                   type="file"
-                  accept="audio/*"
+                  accept=".wav,.mp3,.flac,.ogg,audio/wav,audio/mpeg,audio/flac,audio/ogg"
                   hidden
                   ref={fileInputRef}
                   onChange={handleFileUpload}
@@ -309,7 +338,7 @@ export default function Analyze() {
           <div className="col-span-2 bg-white dark:bg-[#1b2531] rounded-xl p-8 border border-slate-100 dark:border-slate-800 grid grid-cols-3 gap-8 transition-colors">
             <div className="text-center">
               <p className="text-sm font-bold tracking-[0.15em] text-slate-900 dark:text-slate-400 mb-4 opacity-80">
-                LIVE STRESS SCORE
+                {predictionSource === "audio" ? "AUDIO MODEL PREDICTION" : "TEXT MODEL PREDICTION"}
               </p>
 
               <div className="relative w-36 h-36 mx-auto">
@@ -319,25 +348,25 @@ export default function Analyze() {
                     cx="50"
                     cy="50"
                     r="42"
-                    stroke={stressConfig[stressLevel]?.color}
+                    stroke={stressConfig[stressLevel]?.color || "#94a3b8"}
                     strokeWidth="10"
                     fill="none"
                     strokeDasharray="264"
-                    strokeDashoffset={264 - parseInt(stressPercent) * 2.64}
+                    strokeDashoffset={264 - (confidence ?? 0) * 264}
                   />
                 </svg>
 
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span
                     className="text-3xl font-bold"
-                    style={{ color: stressConfig[stressLevel]?.color }}
+                    style={{ color: stressConfig[stressLevel]?.color || "#64748b" }}
                   >
-                    {stressLevel}
+                    {stressLevel || "No result"}
                   </span>
                   <div className="flex flex-col items-center">
                     <span className="text-xs font-bold text-slate-800 dark:text-slate-400 uppercase tracking-tight">Confidence</span>
                     <span className="text-base font-bold text-slate-900 dark:text-slate-200">
-                      {(confidence * 100).toFixed(1)}%
+                      {confidence === null ? "—" : `${(confidence * 100).toFixed(1)}%`}
                     </span>
                   </div>
                 </div>
@@ -346,21 +375,56 @@ export default function Analyze() {
 
             <div className="col-span-2 space-y-4">
               <p className="text-sm font-bold tracking-[0.15em] text-slate-900 dark:text-slate-400 opacity-80">
-                TRANSCRIPTION
+                TEXT / TRANSCRIPTION
               </p>
 
               <div className="bg-slate-50 dark:bg-slate-900 rounded-lg p-5 italic text-slate-900 dark:text-slate-200 border border-slate-100 dark:border-slate-800 transition-colors min-h-[100px] flex items-center shadow-inner">
-                {transcription || (loading ? "Analyzing..." : "Your speech will appear here after analysis.")}
+                {transcription || (loading ? "Analyzing..." : "Your text or transcription will appear here after analysis.")}
+              </div>
+              {transcriptionMessage && (
+                <p className="text-sm text-amber-700 dark:text-amber-300">
+                  {transcriptionMessage}
+                </p>
+              )}
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  ["Audio model", audioPrediction],
+                  ["Text model", textPrediction],
+                ].map(([name, prediction]) => (
+                  <div
+                    key={name}
+                    className="rounded-lg border border-slate-100 dark:border-slate-800 p-3 text-sm"
+                  >
+                    <p className="font-semibold text-slate-700 dark:text-slate-300">{name}</p>
+                    <p className="text-slate-900 dark:text-slate-100">
+                      {prediction?.predicted_stress_level ||
+                        prediction?.error ||
+                        "Not available"}
+                    </p>
+                    {prediction?.predicted_stress_level && (
+                      <p className="text-slate-500 dark:text-slate-400">
+                        Confidence: {prediction.confidence == null
+                          ? "Unavailable"
+                          : `${(prediction.confidence * 100).toFixed(1)}%`}
+                      </p>
+                    )}
+                    {prediction?.confidence_note && (
+                      <p className="text-xs text-amber-700 dark:text-amber-300">
+                        {prediction.confidence_note}
+                      </p>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
           <aside
             className="rounded-xl p-6 border border-slate-100 dark:border-slate-800"
-            style={{ backgroundColor: stressConfig[stressLevel]?.bg }}
+            style={{ backgroundColor: stressConfig[stressLevel]?.bg || "#f8fafc" }}
           >
             <h4
               className="font-semibold mb-2"
-              style={{ color: stressConfig[stressLevel]?.color }}
+              style={{ color: stressConfig[stressLevel]?.color || "#64748b" }}
             >
               AI Well-being Guidance
             </h4>

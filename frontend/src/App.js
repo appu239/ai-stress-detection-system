@@ -33,65 +33,171 @@ import NotFound from "./pages/NotFound";
 /* AUTH UTILS */
 import { getAuthToken, getUserRole } from "./utils/auth";
 
-/* PROTECTED ROUTES */
+/* =========================
+   PROTECTED USER ROUTE
+========================= */
 function UserProtectedRoute({ children }) {
   const token = getAuthToken();
   const role = getUserRole();
-  if (!token || role?.toUpperCase() !== "USER") return <Navigate to="/login" replace />;
+
+  if (!token || String(role || "").toUpperCase() !== "USER") {
+    return <Navigate to="/login" replace />;
+  }
+
   return children;
 }
 
+/* =========================
+   PROTECTED ADMIN ROUTE
+========================= */
 function AdminProtectedRoute({ children }) {
   const token = getAuthToken();
   const role = getUserRole();
-  if (!token || role?.toUpperCase() !== "ADMIN") return <Navigate to="/login" replace />;
+
+  if (!token || String(role || "").toUpperCase() !== "ADMIN") {
+    return <Navigate to="/login" replace />;
+  }
+
   return children;
 }
 
+/* =========================
+   MAIN APP
+========================= */
 export default function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
         <AnimatePresence mode="wait">
           <Routes>
+
+            {/* ================= PUBLIC ROUTES ================= */}
+
             <Route path="/" element={<Landing />} />
+
             <Route path="/login" element={<UserLogin />} />
+
             <Route path="/register" element={<UserRegister />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+
+            <Route
+              path="/forgot-password"
+              element={<ForgotPassword />}
+            />
+
             <Route path="/help" element={<HelpCenter />} />
+
             <Route path="/security" element={<Security />} />
+
             <Route path="/faq" element={<FAQ />} />
+
             <Route path="/demo" element={<Demo />} />
+
             <Route path="/contact" element={<Contact />} />
+
             <Route path="/pricing" element={<Pricing />} />
 
-            {/* USER DASHBOARD ROUTES */}
-            <Route path="/user" element={
-              <UserProtectedRoute>
-                <DashboardLayout />
-              </UserProtectedRoute>
-            }>
-              <Route index element={<Navigate to="/user/analyze" replace />} />
-              <Route path="analyze" element={<Analyze />} />
-              <Route path="history" element={<History />} />
-              <Route path="settings" element={<Settings />} />
+
+            {/* ================= USER DASHBOARD ================= */}
+
+            <Route
+              path="/user"
+              element={
+                <UserProtectedRoute>
+                  <DashboardLayout />
+                </UserProtectedRoute>
+              }
+            >
+              {/* /user → /user/analyze */}
+              <Route
+                index
+                element={
+                  <Navigate
+                    to="/user/analyze"
+                    replace
+                  />
+                }
+              />
+
+              {/* Analyze */}
+              <Route
+                path="analyze"
+                element={<Analyze />}
+              />
+
+              {/* History */}
+              <Route
+                path="history"
+                element={<History />}
+              />
+
+              {/* Settings */}
+              <Route
+                path="settings"
+                element={<Settings />}
+              />
             </Route>
 
-            {/* ADMIN DASHBOARD ROUTES */}
-            <Route path="/admin" element={
-              <AdminProtectedRoute>
-                <DashboardLayout />
-              </AdminProtectedRoute>
-            }>
-              <Route index element={<Navigate to="/admin/dashboard" replace />} />
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="analytics" element={<AdminAnalytics />} />
-              <Route path="users" element={<AdminUserManagement />} />
-              <Route path="users/:userId" element={<AdminUserDetails />} />
-              <Route path="audit-logs" element={<AdminAuditLogs />} />
+
+            {/* ================= ADMIN DASHBOARD ================= */}
+
+            <Route
+              path="/admin"
+              element={
+                <AdminProtectedRoute>
+                  <DashboardLayout />
+                </AdminProtectedRoute>
+              }
+            >
+              {/* /admin → /admin/dashboard */}
+              <Route
+                index
+                element={
+                  <Navigate
+                    to="/admin/dashboard"
+                    replace
+                  />
+                }
+              />
+
+              {/* Admin Dashboard */}
+              <Route
+                path="dashboard"
+                element={<AdminDashboard />}
+              />
+
+              {/* Admin Analytics */}
+              <Route
+                path="analytics"
+                element={<AdminAnalytics />}
+              />
+
+              {/* User Management */}
+              <Route
+                path="users"
+                element={<AdminUserManagement />}
+              />
+
+              {/* Individual User Details */}
+              <Route
+                path="users/:userId"
+                element={<AdminUserDetails />}
+              />
+
+              {/* Audit Logs */}
+              <Route
+                path="audit-logs"
+                element={<AdminAuditLogs />}
+              />
             </Route>
 
-            <Route path="*" element={<NotFound />} />
+
+            {/* ================= 404 ================= */}
+
+            <Route
+              path="*"
+              element={<NotFound />}
+            />
+
           </Routes>
         </AnimatePresence>
       </BrowserRouter>
